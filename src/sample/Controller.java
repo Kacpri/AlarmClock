@@ -1,15 +1,11 @@
 package sample;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WeakChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-
 import java.awt.Point;
+import java.time.LocalTime;
 import java.util.Timer;
 import java.util.Vector;
 
@@ -19,8 +15,10 @@ public class Controller {
     private Vector<Double> mousePos;
     private Point center;
     private Timer clock;
+    private Timer alarmHammer;
     private boolean setupMode;
     private boolean isRinging;
+    private int hammerDirection;
 
     @FXML
     ImageView hour;
@@ -37,9 +35,15 @@ public class Controller {
     @FXML
     Button button;
 
+    @FXML
+    ImageView hammer;
+
     public void initialize() {
+        alarmHammer = new Timer();
+        alarmHammer.cancel();
+        hammerDirection = 2;
         setupMode = false;
-        center = new Point(150, 100);
+        center = new Point(480, 300);
         mousePos = new Vector<>();
         mousePos.add(0.0);
         mousePos.add(-50.0);
@@ -54,15 +58,33 @@ public class Controller {
                 stopTimer();
             }
         });
+        setCurrentTime();
+        startTimer();
     }
 
     public void startTimer() {
         clock = new Timer();
-        clock.schedule(new Tick(this), 0, 1000);
+        clock.schedule(new Tick(this), 1000, 100);
     }
 
     public void stopTimer() {
         clock.cancel();
+    }
+
+    public void startHammerTimer() {
+        alarmHammer = new Timer();
+        alarmHammer.schedule(new Ding(this), 0, 2);
+    }
+
+    public void stopHammerTimer() {
+        alarmHammer.cancel();
+        hammer.setRotate(0);
+    }
+
+    public void rotateHammer() {
+        if(hammer.getRotate() > 10 || hammer.getRotate() < -10)
+            hammerDirection *=-1;
+        hammer.setRotate(hammer.getRotate()+hammerDirection);
     }
 
     public void nextSecond() {
@@ -73,21 +95,31 @@ public class Controller {
 
     public void moveClock(double angle) {
         minute.setRotate((minute.getRotate() + angle) % 360);
-        hour.setRotate((hour.getRotate() + angle / 60) % 360);
-        if (abs(hour.getRotate() - alarm.getRotate()) < 0.001) {
+        hour.setRotate((hour.getRotate() + angle / 12) % 360);
+        if (abs(fixAngle(hour.getRotate()) - fixAngle(alarm.getRotate())) <= 0.25 && second.getRotate() < 6) {
             isRinging = true;
             Sounds.alarm();
+            startHammerTimer();
         }
     }
 
-    private void moveAlarm(double angle) {
-        alarm.setRotate((alarm.getRotate() + angle) % 360);
+    public double fixAngle(double angle)
+    {
+        if(angle < 0)
+            return 360+angle;
+        return angle;
+    }
+
+    private void moveAlarm(double angle)
+    {
+        alarm.setRotate((alarm.getRotate() + rint(angle)) % 360);
     }
 
     public void handleStopAlarm() {
         if (isRinging) {
             Sounds.stopAlarm();
             isRinging = false;
+            stopHammerTimer();
         }
     }
 
@@ -121,5 +153,13 @@ public class Controller {
         //System.out.println(divider + " " +cos + " " + degrees);
         return degrees;
 
+    }
+
+    public void setCurrentTime()
+    {
+        LocalTime time = LocalTime.now();
+        hour.setRotate(time.getHour()*30.0 + time.getMinute()*0.5 + time.getSecond()*(0.5/60));
+        minute.setRotate(time.getMinute()*6.0 + time.getSecond()*0.1);
+        second.setRotate(time.getSecond()*6.0);
     }
 }

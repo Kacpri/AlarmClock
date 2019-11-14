@@ -11,12 +11,20 @@
     <children>
         <ImageView fitHeight="500.0" fitWidth="800.0">
             <image>
-                <Image url="@images/Background.jpg" />
+                <Image url="@images/background.jpg" />
             </image>
         </ImageView>
-        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" onMouseMoved="#handleSetClock" prefHeight="500.0" prefWidth="800.0">
+        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#handleStopAlarm" onMouseMoved="#handleSetClock" prefHeight="500.0" prefWidth="800.0">
             <children>
-                <ImageView fitHeight="413.0" fitWidth="729.0" onMouseClicked="#handleStopAlarm" translateY="-25.0">
+            <ImageView fx:id="hammer" fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
+               <image>
+                  <Image url="@images/hammer.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets bottom="25.0" />
+               </StackPane.margin>
+            </ImageView>
+                <ImageView fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
                     <image>
                         <Image url="@images/AlarmClock3.png" />
                     </image>

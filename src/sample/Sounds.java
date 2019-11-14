@@ -11,9 +11,9 @@ public class Sounds {
     static MediaPlayer tickPlayer, alarmPlayer, alarmEndPlayer;
 
     static {
-        tick = new Media(new File("C:\\Users\\Kacper\\IdeaProjects\\Alarm Clock\\src\\sample\\sounds\\clock.wav").toURI().toString());
-        alarmSound = new Media(new File("C:\\Users\\Kacper\\IdeaProjects\\Alarm Clock\\src\\sample\\sounds\\alarmSound.wav").toURI().toString());
-        alarmEnd = new Media(new File("C:\\Users\\Kacper\\IdeaProjects\\Alarm Clock\\src\\sample\\sounds\\alarmEnd.wav").toURI().toString());
+        tick = new Media(new File("src\\sample\\sounds\\clock.wav").toURI().toString());
+        alarmSound = new Media(new File("src\\sample\\sounds\\alarmSound.wav").toURI().toString());
+        alarmEnd = new Media(new File("src\\sample\\sounds\\alarmEnd.wav").toURI().toString());
         tickPlayer = new MediaPlayer(tick);
         tickPlayer.setVolume(0.3);
         alarmPlayer = new MediaPlayer((alarmSound));

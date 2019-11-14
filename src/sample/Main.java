@@ -18,17 +18,18 @@ public class Main extends Application {
 
         root.setScaleX(1.2);
         root.setScaleY(1.2);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Alarm Clock");
         primaryStage.setScene(new Scene(root, 960, 600));
+        primaryStage.setResizable(false);
         primaryStage.show();
         controller = loader.getController();
-        controller.startTimer();
 
     }
 
     @Override
     public void stop() {
         controller.stopTimer();
+        controller.stopHammerTimer();
     }
 
     public static void main(String[] args) {
