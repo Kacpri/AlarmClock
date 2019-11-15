@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import java.awt.Point;
@@ -12,28 +11,24 @@ import java.util.Vector;
 import static java.lang.Math.*;
 
 public class Controller {
-    private Vector<Double> mousePos;
+    private Vector<Double> mousePosition;
     private Point center;
     private Timer clock;
     private Timer alarmHammer;
-    private boolean setupMode;
     private boolean isRinging;
     private int hammerDirection;
 
     @FXML
-    ImageView hour;
+    ImageView hourHand;
 
     @FXML
-    ImageView minute;
+    ImageView minuteHand;
 
     @FXML
-    ImageView second;
+    ImageView secondHand;
 
     @FXML
-    ImageView alarm;
-
-    @FXML
-    Button button;
+    ImageView alarmHand;
 
     @FXML
     ImageView hammer;
@@ -42,68 +37,61 @@ public class Controller {
         alarmHammer = new Timer();
         alarmHammer.cancel();
         hammerDirection = 2;
-        setupMode = false;
-        center = new Point(480, 300);
-        mousePos = new Vector<>();
-        mousePos.add(0.0);
-        mousePos.add(-50.0);
-        setupMode = false;
+        center = new Point(1120/2, 700/2);
+        mousePosition = new Vector<>();
+        mousePosition.add(0.0);
+        mousePosition.add(-50.0);
         isRinging = false;
-        button.setOnMouseClicked((e) -> {
-            if (setupMode) {
-                setupMode = false;
-                startTimer();
-            } else {
-                setupMode = true;
-                stopTimer();
-            }
-        });
         setCurrentTime();
         startTimer();
+        alarmHand.setRotate(0.0);
+
     }
 
-    public void startTimer() {
+    private void startTimer() {
         clock = new Timer();
-        clock.schedule(new Tick(this), 1000, 100);
+        clock.schedule(new Tick(this), 1000, 50);
     }
 
-    public void stopTimer() {
+    void stopTimer() {
         clock.cancel();
     }
 
-    public void startHammerTimer() {
+    private void startHammerTimer() {
         alarmHammer = new Timer();
         alarmHammer.schedule(new Ding(this), 0, 2);
     }
 
-    public void stopHammerTimer() {
+    void stopHammerTimer() {
         alarmHammer.cancel();
         hammer.setRotate(0);
     }
 
-    public void rotateHammer() {
+    void rotateHammer() {
         if(hammer.getRotate() > 10 || hammer.getRotate() < -10)
             hammerDirection *=-1;
         hammer.setRotate(hammer.getRotate()+hammerDirection);
     }
 
-    public void nextSecond() {
-        second.setRotate((second.getRotate() + 6) % 360);
-        moveClock(0.1);
-        Sounds.tick();
+    void nextSecond() {
+        secondHand.setRotate((secondHand.getRotate() + 0.3) % 360);
+        moveClock(0.005);
+        if(secondHand.getRotate() % 6 < 0.0001)
+            Sounds.tick();
+
     }
 
-    public void moveClock(double angle) {
-        minute.setRotate((minute.getRotate() + angle) % 360);
-        hour.setRotate((hour.getRotate() + angle / 12) % 360);
-        if (abs(fixAngle(hour.getRotate()) - fixAngle(alarm.getRotate())) <= 0.25 && second.getRotate() < 6) {
+    private void moveClock(double angle) {
+        minuteHand.setRotate((minuteHand.getRotate() + angle) % 360);
+        hourHand.setRotate((hourHand.getRotate() + angle / 12) % 360);
+        if (abs(fixAngle(hourHand.getRotate()) - fixAngle(alarmHand.getRotate())) <= 0.25 && secondHand.getRotate() < 6) {
             isRinging = true;
             Sounds.alarm();
             startHammerTimer();
         }
     }
 
-    public double fixAngle(double angle)
+    private double fixAngle(double angle)
     {
         if(angle < 0)
             return 360+angle;
@@ -112,35 +100,47 @@ public class Controller {
 
     private void moveAlarm(double angle)
     {
-        alarm.setRotate((alarm.getRotate() + rint(angle)) % 360);
+        alarmHand.setRotate((alarmHand.getRotate() + rint(angle)) % 360);
     }
 
     public void handleStopAlarm() {
         if (isRinging) {
             Sounds.stopAlarm();
-            isRinging = false;
             stopHammerTimer();
+            isRinging = false;
         }
     }
-
-    public void handleSetClock(MouseEvent mouseEvent) {
-        if (setupMode && mouseEvent.isShiftDown()) {
-            Vector<Double> currentPos = new Vector<>();
-            currentPos.add(mouseEvent.getSceneX() - center.getX());
-            currentPos.add(mouseEvent.getSceneY() - center.getY());
-            moveClock(angleBetweenVectors(mousePos, currentPos));
-        }
-        if (setupMode && mouseEvent.isControlDown()) {
-            Vector<Double> currentPos = new Vector<>();
-            currentPos.add(mouseEvent.getSceneX() - center.getX());
-            currentPos.add(mouseEvent.getSceneY() - center.getY());
-            moveAlarm(angleBetweenVectors(mousePos, currentPos));
-        }
-        mousePos.set(0, mouseEvent.getSceneX() - center.getX());
-        mousePos.set(1, mouseEvent.getSceneY() - center.getY());
+    public void handleSetMinute(MouseEvent mouseEvent){
+        setClock(mouseEvent, 0);
+    }
+    public void handleSetHour(MouseEvent mouseEvent){
+        setClock(mouseEvent, 1);
+    }
+    public void handleSetAlarm(MouseEvent mouseEvent){
+        setClock(mouseEvent, 2);
+    }
+    public void handleSetMousePosition(MouseEvent mouseEvent){
+        mousePosition.set(0, mouseEvent.getSceneX() - center.getX());
+        mousePosition.set(1, mouseEvent.getSceneY() - center.getY());
     }
 
-    public double angleBetweenVectors(Vector<Double> a, Vector<Double> b) {
+    private void setClock(MouseEvent mouseEvent, int hand) {
+
+        Vector<Double> currentPos = new Vector<>();
+        currentPos.add(mouseEvent.getSceneX() - center.getX());
+        currentPos.add(mouseEvent.getSceneY() - center.getY());
+        if(hand == 0)
+            moveClock(angleBetweenVectors(mousePosition, currentPos));
+        else if(hand == 1)
+            moveClock(angleBetweenVectors(mousePosition, currentPos) * 12);
+        else
+            moveAlarm(angleBetweenVectors(mousePosition, currentPos));
+        mousePosition.set(0, mouseEvent.getSceneX() - center.getX());
+        mousePosition.set(1, mouseEvent.getSceneY() - center.getY());
+
+    }
+
+    private double angleBetweenVectors(Vector<Double> a, Vector<Double> b) {
         double divider = (sqrt(pow(a.get(0), 2) + pow(a.get(1), 2)) * sqrt(pow(b.get(0), 2) + pow(b.get(1), 2)));
         if (divider == 0.0)
             return 0.0;
@@ -155,11 +155,11 @@ public class Controller {
 
     }
 
-    public void setCurrentTime()
+    private void setCurrentTime()
     {
         LocalTime time = LocalTime.now();
-        hour.setRotate(time.getHour()*30.0 + time.getMinute()*0.5 + time.getSecond()*(0.5/60));
-        minute.setRotate(time.getMinute()*6.0 + time.getSecond()*0.1);
-        second.setRotate(time.getSecond()*6.0);
+        hourHand.setRotate(time.getHour()*30.0 + time.getMinute()*0.5 + time.getSecond()*(0.5/60));
+        minuteHand.setRotate(time.getMinute()*6.0 + time.getSecond()*0.1);
+        secondHand.setRotate(time.getSecond()*6.0);
     }
 }

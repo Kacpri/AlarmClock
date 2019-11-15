@@ -16,10 +16,10 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         Parent root = loader.load();
 
-        root.setScaleX(1.2);
-        root.setScaleY(1.2);
+        root.setScaleX(1.4);
+        root.setScaleY(1.4);
         primaryStage.setTitle("Alarm Clock");
-        primaryStage.setScene(new Scene(root, 960, 600));
+        primaryStage.setScene(new Scene(root, 1120, 700));
         primaryStage.setResizable(false);
         primaryStage.show();
         controller = loader.getController();

@@ -1,6 +1,9 @@
 # AlarmClock
-Projekt budzika na zaliczenie z przedmiotu Komunikacja człowiek - komputer
+Projekt budzika na zaliczenie z przedmiotu Komunikacja człowiek - komputer  
+wykonany przez <i>Karolinę Maciejewską, Michała Ogłozę i Kacpra Piotrowicza</i>
 
-Instrukcja:
-żeby ustawić zegar, włącz Setup mode i z wciśniętym klawiszem Shift obracaj myszką;
-aby ustawić budzik, włącz Setup mode i z wciśniętym klawiszem Ctrl obracaj myszką;
+######Żeby ustawić budzik, należy chwicić za wskazówkę i obracać myszą.
+
+Wszystkie wykorzystane pliki dźwiękowe i graficzne posiadają licencję <b>freeware</b>
+
+

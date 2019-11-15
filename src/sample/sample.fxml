@@ -1,71 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
 
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-    <children>
-        <ImageView fitHeight="500.0" fitWidth="800.0">
-            <image>
-                <Image url="@images/background.jpg" />
-            </image>
+    <ImageView fitHeight="808.0" fitWidth="882.0">
+        <Image url="@images/Background2.png"/>
+    </ImageView>
+    <StackPane maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#handleStopAlarm" prefHeight="500.0"
+               prefWidth="800.0">
+        <ImageView fx:id="hammer" fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
+            <Image url="@images/hammer.png"/>
+            <StackPane.margin>
+                <Insets bottom="25.0"/>
+            </StackPane.margin>
         </ImageView>
-        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#handleStopAlarm" onMouseMoved="#handleSetClock" prefHeight="500.0" prefWidth="800.0">
-            <children>
-            <ImageView fx:id="hammer" fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
-               <image>
-                  <Image url="@images/hammer.png" />
-               </image>
-               <StackPane.margin>
-                  <Insets bottom="25.0" />
-               </StackPane.margin>
-            </ImageView>
-                <ImageView fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
-                    <image>
-                        <Image url="@images/AlarmClock3.png" />
-                    </image>
-               <StackPane.margin>
-                  <Insets bottom="25.0" />
-               </StackPane.margin>
-                </ImageView>
-                <ImageView fitHeight="220.0" fitWidth="220.0">
-                    <image>
-                        <Image url="@images/Face.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="hour" fitHeight="133.0" fitWidth="200.0">
-                    <image>
-                        <Image url="@images/Hour.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="minute" fitHeight="220.0" fitWidth="225.0">
-                    <image>
-                        <Image url="@images/Minute.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="alarm" fitHeight="220.0" fitWidth="225.0">
-                    <image>
-                        <Image url="@images/Alarm.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="second" fitHeight="220.0" fitWidth="225.0">
-                    <image>
-                        <Image url="@images/Second.png" />
-                    </image>
-                </ImageView>
-                  <Button fx:id="button" alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-border-width: 1; -fx-border-color: #666666;" text="Setup mode" StackPane.alignment="CENTER_RIGHT">
-               <StackPane.margin>
-                  <Insets right="100.0" />
-               </StackPane.margin>
-               <font>
-                  <Font name="Verdana" size="12.0" />
-               </font>
-            </Button>
-            </children>
-        </StackPane>
-    </children>
+        <ImageView fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
+            <Image url="@images/AlarmClock3.png"/>
+            <StackPane.margin>
+                <Insets bottom="25.0"/>
+            </StackPane.margin>
+        </ImageView>
+        <ImageView fitHeight="220.0" fitWidth="220.0">
+            <Image url="@images/Face.png"/>
+        </ImageView>
+        <ImageView fx:id="alarmHand" fitHeight="220.0" fitWidth="225.0" onMouseDragged="#handleSetAlarm"
+                   onMousePressed="#handleSetMousePosition" rotate="-51.1">
+            <Image url="@images/alarmHand.png"/>
+        </ImageView>
+        <ImageView fx:id="hourHand" fitHeight="133.0" fitWidth="200.0" onMouseDragged="#handleSetHour"
+                   onMousePressed="#handleSetMousePosition" rotate="-41.0">
+            <Image url="@images/Hour.png"/>
+        </ImageView>
+        <ImageView fx:id="minuteHand" fitHeight="220.0" fitWidth="320.0" onMouseDragged="#handleSetMinute"
+                   onMousePressed="#handleSetMousePosition">
+            <Image url="@images/Minute.png"/>
+        </ImageView>
+        <ImageView fx:id="secondHand" fitHeight="220.0" fitWidth="225.0" rotate="90.0">
+            <Image url="@images/secondHand2.png"/>
+        </ImageView>
+    </StackPane>
 </StackPane>
