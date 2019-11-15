@@ -16,7 +16,7 @@ public class Controller {
     private Timer clock;
     private Timer alarmHammer;
     private boolean isRinging;
-    private int hammerDirection;
+    private char hammerDirection;
 
     @FXML
     ImageView hourHand;
@@ -78,13 +78,12 @@ public class Controller {
         moveClock(0.005);
         if(secondHand.getRotate() % 6 < 0.0001)
             Sounds.tick();
-
     }
 
     private void moveClock(double angle) {
         minuteHand.setRotate((minuteHand.getRotate() + angle) % 360);
         hourHand.setRotate((hourHand.getRotate() + angle / 12) % 360);
-        if (abs(fixAngle(hourHand.getRotate()) - fixAngle(alarmHand.getRotate())) <= 0.25 && secondHand.getRotate() < 6) {
+        if (abs(fixAngle(hourHand.getRotate()) - fixAngle(alarmHand.getRotate())) <= 0.0005 && !isRinging) {
             isRinging = true;
             Sounds.alarm();
             startHammerTimer();
