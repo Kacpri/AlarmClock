@@ -7,39 +7,35 @@
 
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <ImageView fitHeight="808.0" fitWidth="882.0">
-        <Image url="@images/Background2.png"/>
+        <Image url="@images/Background2.png" />
     </ImageView>
-    <StackPane maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#handleStopAlarm" prefHeight="500.0"
-               prefWidth="800.0">
+    <StackPane maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#handleStopAlarm" prefHeight="500.0" prefWidth="800.0">
         <ImageView fx:id="hammer" fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
-            <Image url="@images/hammer.png"/>
+            <Image url="@images/hammer.png" />
             <StackPane.margin>
-                <Insets bottom="25.0"/>
+                <Insets bottom="24.0" right="1.0" />
             </StackPane.margin>
         </ImageView>
         <ImageView fitHeight="413.0" fitWidth="729.0" translateY="-25.0">
-            <Image url="@images/AlarmClock3.png"/>
+            <Image url="@images/AlarmClockWithShadow.png" />
             <StackPane.margin>
-                <Insets bottom="25.0"/>
+                <Insets bottom="24.0" right="1.0" />
             </StackPane.margin>
         </ImageView>
-        <ImageView fitHeight="220.0" fitWidth="220.0">
-            <Image url="@images/Face.png"/>
+        <ImageView fx:id="alarmHand" fitHeight="220.0" fitWidth="225.0" onMouseDragged="#handleSetAlarm" onMousePressed="#handleSetMousePosition">
+            <Image url="@images/alarmHand.png" />
         </ImageView>
-        <ImageView fx:id="alarmHand" fitHeight="220.0" fitWidth="225.0" onMouseDragged="#handleSetAlarm"
-                   onMousePressed="#handleSetMousePosition" rotate="-51.1">
-            <Image url="@images/alarmHand.png"/>
+        <ImageView fx:id="hourHand" fitHeight="225.0" fitWidth="225.0" onMouseDragged="#handleSetHour" onMousePressed="#handleSetMousePosition" rotate="270.0">
+            <Image url="@images/hourHand2.png" />
         </ImageView>
-        <ImageView fx:id="hourHand" fitHeight="133.0" fitWidth="200.0" onMouseDragged="#handleSetHour"
-                   onMousePressed="#handleSetMousePosition" rotate="-41.0">
-            <Image url="@images/Hour.png"/>
+        <ImageView fx:id="minuteHand" fitHeight="220.0" fitWidth="220.0" onMouseDragged="#handleSetMinute" onMousePressed="#handleSetMousePosition" rotate="90.0">
+            <Image url="@images/minuteHand2.png" />
         </ImageView>
-        <ImageView fx:id="minuteHand" fitHeight="220.0" fitWidth="320.0" onMouseDragged="#handleSetMinute"
-                   onMousePressed="#handleSetMousePosition">
-            <Image url="@images/Minute.png"/>
-        </ImageView>
-        <ImageView fx:id="secondHand" fitHeight="220.0" fitWidth="225.0" rotate="90.0">
-            <Image url="@images/secondHand2.png"/>
+        <ImageView fx:id="secondHand" fitHeight="225.0" fitWidth="225.0">
+            <Image url="@images/secondHand2.png" />
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
         </ImageView>
     </StackPane>
 </StackPane>
