@@ -6,35 +6,31 @@ import javafx.util.Duration;
 
 import java.io.File;
 
-public class Sounds {
-    static Media tick, alarmSound, alarmEnd;
-    static MediaPlayer tickPlayer, alarmPlayer, alarmEndPlayer;
+class Sounds {
+    private static MediaPlayer tick, alarm, alarmEnd;
 
     static {
-        tick = new Media(new File("src\\sample\\sounds\\clock.wav").toURI().toString());
-        alarmSound = new Media(new File("src\\sample\\sounds\\alarmSound.wav").toURI().toString());
-        alarmEnd = new Media(new File("src\\sample\\sounds\\alarmEnd.wav").toURI().toString());
-        tickPlayer = new MediaPlayer(tick);
-        tickPlayer.setVolume(0.3);
-        alarmPlayer = new MediaPlayer((alarmSound));
-        alarmEndPlayer = new MediaPlayer((alarmEnd));
-        alarmPlayer.setOnEndOfMedia(new Runnable() {
+        tick = new MediaPlayer(new Media(new File("src\\sample\\sounds\\clock.wav").toURI().toString()));
+        alarm = new MediaPlayer(new Media(new File("src\\sample\\sounds\\alarmSound.wav").toURI().toString()));
+        alarmEnd = new MediaPlayer(new Media(new File("src\\sample\\sounds\\alarmEnd.wav").toURI().toString()));
+        tick.setVolume(0.3);
+        alarm.setOnEndOfMedia(new Runnable() {
             public void run() {
-                alarmPlayer.seek(Duration.ZERO);
+                alarm.seek(Duration.ZERO);
             }
         });
     }
-    public static void tick () {
-        tickPlayer.stop();
-        tickPlayer.play();
+    static void tick () {
+        tick.stop();
+        tick.play();
     }
-    public static void alarm(){
-        alarmPlayer.stop();
-        alarmPlayer.play();
+    static void alarm(){
+        alarm.stop();
+        alarm.play();
     }
-    public static void stopAlarm(){
-        alarmEndPlayer.stop();
-        alarmPlayer.stop();
-        alarmEndPlayer.play();
+    static void stopAlarm(){
+        alarmEnd.stop();
+        alarm.stop();
+        alarmEnd.play();
     }
 }
