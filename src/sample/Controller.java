@@ -1,11 +1,10 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.awt.Point;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.Vector;
@@ -14,7 +13,7 @@ import static java.lang.Math.*;
 
 public class Controller {
     private Vector<Double> mousePosition;
-    private Point center;
+    Point2D center;
     private Timer clock;
     private Timer alarmHammer;
     private boolean isRinging;
@@ -39,7 +38,6 @@ public class Controller {
         alarmHammer = new Timer();
         alarmHammer.cancel();
         hammerDirection = 2;
-        center = new Point(1120 / 2, 700 / 2);
         mousePosition = new Vector<>();
         mousePosition.add(0.0);
         mousePosition.add(-50.0);
@@ -55,6 +53,7 @@ public class Controller {
     }
 
     void stopTimer() {
+        System.out.println(center.getX() + " " + center.getY());
         clock.cancel();
     }
 
